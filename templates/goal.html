@@ -2,7 +2,19 @@
 {% block content %}
     <main class="container mt-3">
         <h1 class="h1 text-center w-50 mx-auto mt-1 py-5 mb-4"><strong>🚜<br>Преподаватели <br>{{ goal }}</strong></h1>
-
+            <div class="text-center mb-5">
+                <div class="btn-group mx-auto mb-0" role="group" aria-label="Basic example">
+                    <a href="{{ url_for("render_goal", goal="travel") }}" class="btn btn-outline-secondary">⛱Для
+                        путешествий</a>
+                    <a href="{{ url_for("render_goal", goal="study") }}" class="btn btn-outline-secondary">🏫 Для
+                        школы</a>
+                    <a href="{{ url_for("render_goal", goal="work") }}" class="btn btn-outline-secondary">🏢 Для
+                        работы</a>
+                    <a href="{{ url_for("render_goal", goal="relocate") }}" class="btn btn-outline-secondary">🚜 Для
+                        переезда</a>
+                    <a href="{{ url_for("render_goal", goal="code") }}" class="btn btn-outline-secondary">💻 Для программирования</a>
+                </div>
+            </div>
         <div class="row">
             <div class="col-12 col-lg-10 offset-lg-1 m-auto">
                 {% for teacher in teachers|sort(attribute="rating")|reverse %}
