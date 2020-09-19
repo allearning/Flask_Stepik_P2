@@ -1,67 +1,43 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "base.html" %}
+{% block content %}
+    <main class="container mt-3">
+        <div class="row mt-5">
+            <div class="col-10 col-md-6 offset-1 offset-md-3 mb-3">
+                <form action="{{ url_for("render_booking_done") }}" class="card mb-3" method="POST">
+                    <div class="card-body text-center pt-5">
+                        <img src="{{ teacher.picture }}" class="mb-3" width="95" alt="">
+                        <h2 class="h2 card-title mt-2 mb-2">{{ teacher.name }}</h2>
+                        <p class="my-1">Запись на пробный урок</p>
+                        <p class="my-1">{{ book_day[1] }}, {{ book_time }}:00</p>
+                    </div>
+                    <hr>
+                    <div class="card-body mx-3">
+                        <div class="row">
+                            {{ form.clientWeekday(class_='form-control', type="hidden", value=book_day[0] ) }}
+                            {{ form.clientTime(class_='form-control', type="hidden", value=book_time+":00") }}
+                            {{ form.clientTeacher(class_='form-control', type="hidden", value=teacher.id) }}
 
-<head>
-  <meta charset="UTF-8">
-  <title>TINYSTEPS</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+                        </div>
+                        {{ form.csrf_token }}
+                        {{ form.clientName.label(class_="mb-1 mt-2") }}
+                        {{ form.clientName(class_='form-control') }}
 
-<body>
-  <header class="container mt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">TINYSTEPS</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Все репетиторы</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Заявка на подбор</a>
-          </li>
-        </ul>
-      </div>
-      <span class="navbar-text d-sm-none d-lg-block">
-        ☺️
-      </span>
-    </nav>
-  </header>
-  <main class="container mt-3">
-    <div class="row mt-5">
-      <div class="col-10 col-md-6 offset-1 offset-md-3 mb-3">
-        <form action="booking_done.html" class="card mb-3">
-          <div class="card-body text-center pt-5">
-            <img src="../static/pict 1.png" class="mb-3" width="95" alt="">
-            <h2 class="h5 card-title mt-2 mb-2">Morris Simmmons</h2>
-            <p class="my-1">Запись на пробный урок</p>
-            <p class="my-1">Вторник, 12:00</p>
-          </div>
-          <hr />
-          <div class="card-body mx-3">
-              <div class="row">
-                  <input class="form-control" type="hidden" name="clientWeekday" value="mon">
-                  <input class="form-control" type="hidden" name="clientTime" value="12:00">
-                  <input class="form-control" type="hidden" name="clientTeacher" value="10">
-              </div>
+                        {{ form.clientPhone.label(class_="mb-1 mt-2") }}
+                        {{ form.clientPhone(class_='form-control') }}
 
-            <label class="mb-1 mt-2" for="clientName">Вас зовут</label>
-            <input class="form-control" type="text" name="clientName" id="clientName">
+                        {% for error_element in form.errors %}
+                            {% for error in form[error_element].errors %}
+                                <p class="mt-3 alert alert-danger">Ошибка: {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
 
-            <label class="mb-1 mt-2" for="clientPhone">Ваш телефон</label>
-            <input class="form-control" type="tel"  name="clientPhone" id="clientPhone">
+                        {{ form.submit(class_='btn btn-primary btn-block mt-4') }}
 
-            <input type="submit" class="btn btn-primary btn-block mt-4" value="Записаться на пробный урок">
 
-          </div>
-        </form>
-      </div>
-    </div>
-  </main>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
