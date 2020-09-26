@@ -73,9 +73,13 @@ PHONE_RE = r"^((\+\d)|\d)?\-?(\([\d]+\))?\-?[\d\-]+[\d]$"
 DAYS_OF_WEEK = {"mon": "Понедельник", "tue": "Вторник", "wed": "Среда", "thu": "Четверг", "fri": "Пятница",
                 "sat": "Суббота", "sun": "Воскресенье"}
 
-GOALS_TEXT = {}
-for goal in db.session.query(Goal).all():
-    GOALS_TEXT[goal.id] = goal.text
+
+try:
+    GOALS_TEXT = {}
+    for goal in db.session.query(Goal).all():
+        GOALS_TEXT[goal.id] = goal.text
+except Exception as e:
+    print(e.args)
 
 TIMES = {"1-2": "1-2 часа в неделю", "3-5": "3-5 часов в неделю", "5-7": "5-7 часов в неделю",
          "7-10": "7-10 часов в неделю"}
@@ -128,7 +132,6 @@ def render_profile(teacher_id):
 
 @app.route('/request/', methods=["POST", "GET"])
 def render_request():
-    teachers = db.session.query(Teacher).all()
     if request.method == 'GET':
         form = RequestForm()
         output = render_template("request.html", form=form)
